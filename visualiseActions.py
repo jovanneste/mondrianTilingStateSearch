@@ -2,14 +2,14 @@ import numpy as np
 from PIL import Image # used to display images
 import matplotlib.pyplot as plt
 from matplotlib import colors
-
+import pandas as pd
 
 def loss(grid):
 	unique, counts = np.unique(grid, return_counts=True)
 	return int(max(counts)-min(counts)), unique
 
-
-def visualise(grid, name):
+# Function to save grid as image where each tile is a different colour 
+def visualiseColours(grid, name):
 	grid_name = 'tileImages/'+str(name)+'.png'
 	score, unique = loss(grid)
 	myColors = ["red", "blue", "white", "yellow", "green", "black"]
@@ -21,6 +21,12 @@ def visualise(grid, name):
 	Image.open(grid_name).show()
 	return 
 
+# Function to save grid as csv
+def visualiseGrid(grid, name):
+	grid_name = 'tileImages/'+str(name)+'.csv'
+	df = pd.DataFrame(grid)
+	df.to_csv(grid_name,index=False, header=False)
+	return 
 
 bef_merge = np.array([[1,1,1,2,2],
      [1,1,1,2,2],
@@ -41,6 +47,6 @@ bef_split = np.array([[1,1,1,2,2],
      [1,1,1,2,2]])
 
 
-visualise(bef_merge, 'before_merge')
-visualise(optimal, 'after')
-visualise(bef_split, 'before_split')
+#visualiseColours(bef_merge, 'before_merge')
+#visualiseColours(optimal, 'after')
+#visualiseColours(bef_split, 'before_split')
