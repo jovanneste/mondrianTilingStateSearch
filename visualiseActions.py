@@ -42,5 +42,5 @@ bef_split = np.array([[1,1,1,2,2],
 
 
 visualise(bef_merge, 'before_merge')
-visualise(optimal, 'after_merge')
+visualise(optimal, 'after')
 visualise(bef_split, 'before_split')
