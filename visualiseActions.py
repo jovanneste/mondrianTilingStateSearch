@@ -28,17 +28,12 @@ def visualiseGrid(grid, name):
 	df.to_csv(grid_name,index=False, header=False)
 	return 
 
+# Examples of grids that both lead to 'optimal' solution when merge/split is applied
 bef_merge = np.array([[1,1,1,2,2],
      [1,1,1,2,2],
      [3,3,3,2,2],
      [3,3,3,2,2],
      [3,3,3,4,4]])
-
-optimal = np.array([[1,1,1,2,2],
-     [1,1,1,2,2],
-     [3,3,3,2,2],
-     [3,3,3,2,2],
-     [3,3,3,2,2]])
 
 bef_split = np.array([[1,1,1,2,2],
      [1,1,1,2,2],
@@ -46,7 +41,39 @@ bef_split = np.array([[1,1,1,2,2],
      [1,1,1,2,2],
      [1,1,1,2,2]])
 
+optimal = np.array([[1,1,1,2,2],
+     [1,1,1,2,2],
+     [3,3,3,2,2],
+     [3,3,3,2,2],
+     [3,3,3,2,2]])
 
-#visualiseColours(bef_merge, 'before_merge')
-#visualiseColours(optimal, 'after')
-#visualiseColours(bef_split, 'before_split')
+
+# Examples of grid that both leads to 'aft_merge_split' solution when mergesplit is applied
+
+bef_merge_split = np.array([[1,1,2,2,3],
+     [1,1,2,2,3],
+     [1,1,2,2,3],
+     [1,1,4,4,3],
+     [1,1,5,5,5]])
+
+during_merge_split = np.array([[1,1,2,2,3],
+     [1,1,2,2,3],
+     [1,1,2,2,3],
+     [1,1,4,4,3],
+     [1,1,1,1,1]])
+
+aft_merge_split = np.array([[1,1,2,2,3],
+     [1,1,2,2,3],
+     [1,1,2,2,3],
+     [1,1,4,4,3],
+     [5,5,5,5,5]])
+
+visualiseColours(bef_merge, 'before_merge')
+visualiseColours(bef_split, 'before_split')
+visualiseColours(optimal, 'after')
+
+visualiseColours(bef_merge_split, 'before_merge_split')
+visualiseColours(during_merge_split, 'during_merge_split')
+visualiseColours(aft_merge_split, 'after_merge_split')
+
+
