@@ -22,19 +22,25 @@ def visualise(grid, name):
 	return 
 
 
-
 bef_merge = np.array([[1,1,1,2,2],
      [1,1,1,2,2],
      [3,3,3,2,2],
      [3,3,3,2,2],
      [3,3,3,4,4]])
 
-
-aft_merge = np.array([[1,1,1,2,2],
+optimal = np.array([[1,1,1,2,2],
      [1,1,1,2,2],
      [3,3,3,2,2],
      [3,3,3,2,2],
      [3,3,3,2,2]])
 
+bef_split = np.array([[1,1,1,2,2],
+     [1,1,1,2,2],
+     [1,1,1,2,2],
+     [1,1,1,2,2],
+     [1,1,1,2,2]])
+
+
 visualise(bef_merge, 'before_merge')
-visualise(aft_merge, 'after_merge')
+visualise(optimal, 'after_merge')
+visualise(bef_split, 'before_split')
