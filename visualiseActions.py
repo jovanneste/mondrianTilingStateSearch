@@ -29,56 +29,56 @@ def visualiseGrid(grid, name):
 	return 
 
 # Examples of grids that both lead to 'optimal' solution when merge/split is applied
-bef_merge = np.array([[1,1,1,2,2],
-     [1,1,1,2,2],
-     [3,3,3,2,2],
-     [3,3,3,2,2],
-     [3,3,3,4,4]])
+# bef_merge = np.array([[1,1,1,2,2],
+#      [1,1,1,2,2],
+#      [3,3,3,2,2],
+#      [3,3,3,2,2],
+#      [3,3,3,4,4]])
 
-bef_split = np.array([[1,1,1,2,2],
-     [1,1,1,2,2],
-     [1,1,1,2,2],
-     [1,1,1,2,2],
-     [1,1,1,2,2]])
+# bef_split = np.array([[1,1,1,2,2],
+#      [1,1,1,2,2],
+#      [1,1,1,2,2],
+#      [1,1,1,2,2],
+#      [1,1,1,2,2]])
 
-optimal = np.array([[1,1,1,2,2],
-     [1,1,1,2,2],
-     [3,3,3,2,2],
-     [3,3,3,2,2],
-     [3,3,3,2,2]])
-
-
-# Examples of grid that both leads to 'aft_merge_split' solution when mergesplit is applied
-
-bef_merge_split = np.array([[1,1,2,2,3],
-     [1,1,2,2,3],
-     [1,1,2,2,3],
-     [1,1,4,4,3],
-     [1,1,5,5,5]])
-
-during_merge_split = np.array([[1,1,2,2,3],
-     [1,1,2,2,3],
-     [1,1,2,2,3],
-     [1,1,4,4,3],
-     [1,1,1,1,1]])
-
-aft_merge_split = np.array([[1,1,2,2,3],
-     [1,1,2,2,3],
-     [1,1,2,2,3],
-     [1,1,4,4,3],
-     [5,5,5,5,5]])
-
-examplestate = np.array([[1,1,1,2,2,2,2],
-					[1,1,1,2,2,2,2],
-					[1,1,1,2,2,2,2],
-					[1,1,1,2,2,2,2],
-					[1,1,1,2,2,2,2],
-					[1,1,1,2,2,2,2],
-					[1,1,1,2,2,2,2],])
+# optimal = np.array([[1,1,1,2,2],
+#      [1,1,1,2,2],
+#      [3,3,3,2,2],
+#      [3,3,3,2,2],
+#      [3,3,3,2,2]])
 
 
-visualiseColours(examplestate, 'examplestate')
-visualiseGrid(examplestate, 'examplestate')
+# # Examples of grid that both leads to 'aft_merge_split' solution when mergesplit is applied
+
+# bef_merge_split = np.array([[1,1,2,2,3],
+#      [1,1,2,2,3],
+#      [1,1,2,2,3],
+#      [1,1,4,4,3],
+#      [1,1,5,5,5]])
+
+# during_merge_split = np.array([[1,1,2,2,3],
+#      [1,1,2,2,3],
+#      [1,1,2,2,3],
+#      [1,1,4,4,3],
+#      [1,1,1,1,1]])
+
+# aft_merge_split = np.array([[1,1,2,2,3],
+#      [1,1,2,2,3],
+#      [1,1,2,2,3],
+#      [1,1,4,4,3],
+#      [5,5,5,5,5]])
+
+# examplestate = np.array([[1,1,1,2,2,2,2],
+# 					[1,1,1,2,2,2,2],
+# 					[1,1,1,2,2,2,2],
+# 					[1,1,1,2,2,2,2],
+# 					[1,1,1,2,2,2,2],
+# 					[1,1,1,2,2,2,2],
+# 					[1,1,1,2,2,2,2],])
+
+
+# visualiseColours(examplestate, 'examplestate')
+# visualiseGrid(examplestate, 'examplestate')
 
 # visualiseColours(bef_merge, 'before_merge')
 # visualiseColours(bef_split, 'before_split')

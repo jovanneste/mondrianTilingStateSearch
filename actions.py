@@ -1,13 +1,6 @@
 import numpy as np
 from validateAction import isValid
-
-test = np.array([[1,1,2,2,3],
-               [1,1,2,2,3],
-               [1,1,2,2,3],
-               [1,1,4,4,3],
-               [1,1,5,5,5]])
-
-print(isValid(test))
+from visualiseActions import *
 
 
 def getIndices(grid):
@@ -24,4 +17,30 @@ def getIndices(grid):
 
 # largest rectangle in square to try split 
 # if area if odd - both sides must be odd 
-print(getIndices(test)[0])
+def split(grid):
+	largest_rectangle = getIndices(grid)[0][1]
+	new_num = len(np.unique(grid))+1
+	# make this more elegant 
+	dimensions = [largest_rectangle[-1][0]-largest_rectangle[0][0]+1, largest_rectangle[-1][1]-largest_rectangle[0][1]+1]
+	tile_num = (max(dimensions)//2) * min(dimensions)
+
+	if max(dimensions)%2==0:
+		tile_num = tile_num - min(dimensions)
+
+	for i in range(tile_num):
+		index = largest_rectangle[i]
+		grid[index[0], index[1]] = new_num
+
+	return grid 
+
+
+t = np.array([[1,1,1,2,2],
+     		[1,1,1,2,2],
+     		[1,1,1,2,2],
+     		[1,1,1,2,2],
+     		[3,3,3,2,2]])
+
+
+visualiseColours(t, 'test_bsplit')
+t = split(t)
+visualiseColours(t, 'test_asplit')
