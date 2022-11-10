@@ -12,7 +12,7 @@ def loss(grid):
 def visualiseColours(grid, name):
 	grid_name = 'tileImages/'+str(name)+'.png'
 	score, unique = loss(grid)
-	myColors = ["red", "blue", "white", "yellow", "green", "black"]
+	myColors = ["red", "yellow", "blue", "white", "green", "black"]
 	myCmap = colors.ListedColormap(myColors)
 
 	plt.imshow(grid, cmap=myCmap, vmin=1, vmax=5)
@@ -68,12 +68,24 @@ aft_merge_split = np.array([[1,1,2,2,3],
      [1,1,4,4,3],
      [5,5,5,5,5]])
 
-visualiseColours(bef_merge, 'before_merge')
-visualiseColours(bef_split, 'before_split')
-visualiseColours(optimal, 'after')
+examplestate = np.array([[1,1,1,2,2,2,2],
+					[1,1,1,2,2,2,2],
+					[1,1,1,2,2,2,2],
+					[1,1,1,2,2,2,2],
+					[1,1,1,2,2,2,2],
+					[1,1,1,2,2,2,2],
+					[1,1,1,2,2,2,2],])
 
-visualiseColours(bef_merge_split, 'before_merge_split')
-visualiseColours(during_merge_split, 'during_merge_split')
-visualiseColours(aft_merge_split, 'after_merge_split')
+
+visualiseColours(examplestate, 'examplestate')
+visualiseGrid(examplestate, 'examplestate')
+
+# visualiseColours(bef_merge, 'before_merge')
+# visualiseColours(bef_split, 'before_split')
+# visualiseColours(optimal, 'after')
+
+# visualiseColours(bef_merge_split, 'before_merge_split')
+# visualiseColours(during_merge_split, 'during_merge_split')
+# visualiseColours(aft_merge_split, 'after_merge_split')
 
 
