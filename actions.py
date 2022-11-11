@@ -1,7 +1,6 @@
 import numpy as np
-from validateAction import isValid
 from visualiseActions import *
-
+import random
 
 def getIndices(grid):
 	unique = np.unique(grid)
@@ -15,8 +14,6 @@ def getIndices(grid):
 	return sorted(indices.items(), key = lambda item : len(item[1]), reverse=True)
 
 
-# largest rectangle in square to try split 
-# if area if odd - both sides must be odd 
 def split(grid):
 	largest_rectangle = getIndices(grid)[0][1]
 	new_num = len(np.unique(grid))+1
@@ -34,13 +31,28 @@ def split(grid):
 	return grid 
 
 
-t = np.array([[1,1,1,2,2],
-     		[1,1,1,2,2],
-     		[1,1,1,2,2],
-     		[1,1,1,2,2],
-     		[3,3,3,2,2]])
+def merge(grid):
+	smallest_rectangle = getIndices(grid)[-1][1]
+	surroundings = []
+	merge_options = []
+	for index in smallest_rectangle:
+		surroundings.append([sum(i) for i in zip(index, [1,0])])
+		surroundings.append([sum(i) for i in zip(index, [0,1])])
+		surroundings.append([sum(i) for i in zip(index, [-1,0])])
+		surroundings.append([sum(i) for i in zip(index, [0,-1])])
+	
+	for index in surroundings:
+		if index not in smallest_rectangle:
+			if grid.shape[0] not in index:
+				# check point is a point in the grid and is not the smallest rectangle itself 
+				merge_options.append(index)
+
+	choice = random.choice(merge_options)
+	number = grid[choice[0], choice[1]]
+
+	for i in smallest_rectangle:
+		grid[i[0], i[1]] = number 
+
+	return grid
 
 
-visualiseColours(t, 'test_bsplit')
-t = split(t)
-visualiseColours(t, 'test_asplit')
