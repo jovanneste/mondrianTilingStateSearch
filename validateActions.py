@@ -1,5 +1,5 @@
 import numpy as np
-from actions import * 
+from actions import *
 
 def loss(grid):
      unique, counts = np.unique(grid, return_counts=True)
@@ -33,9 +33,12 @@ def isValid(grid):
           dimensions.append(checkOverlap(i, grid))
      for j in range(len(dimensions)):
           n = dimensions.pop()
-          if [n[1],n[0]] in dimensions or n in dimensions:
-               return False
-          
+          try:
+              if [n[1],n[0]] in dimensions or n in dimensions:
+                   return False
+          except:
+              return False
+
      return True
 
 def validateAction(s, a):
@@ -49,5 +52,3 @@ def validateAction(s, a):
           return s_prime
      else:
           return []
-
-          
