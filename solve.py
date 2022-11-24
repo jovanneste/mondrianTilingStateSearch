@@ -3,6 +3,12 @@ from validateActions import *
 from actions import *
 import copy
 
+
+def f(n, d):
+    g_n = d
+    h_n = score(n)
+    return g_n+h_n
+
 def initialiseGrid(n):
     if n % 2 == 0:
         return np.ones((n, n))
@@ -19,7 +25,7 @@ def initialiseGrid(n):
 def score(grid):
      unique, counts = np.unique(grid, return_counts=True)
      if len(unique)==1:
-         return 100000
+         return 1000
      else:
          return int(max(counts)-min(counts))
 
@@ -30,23 +36,39 @@ def solveMondrian(n, M):
     best_state = copy.copy(initial_grid)
     seen_states = [np.zeros((n,n))]
     depth = 0
-
+    fs = []
+    fs.append(f(initial_grid, depth))
     while (len(states)!=0):
-        s = states[0]
-        states.remove(s)
+        print("Length of states to explore", len(states))
+        print("Length of states seen", len(seen_states))
+        mix_index = fs.index(min(fs))
+        s = states.pop(mix_index)
+        fs.pop(mix_index)
         if depth<M:
             print("Iteration " + str(int(depth)) + ", current best state score = " + str(score(best_state)))
             for action in actions:
-                s_prime = copy.copy(eval(action)(s))
-                if (np.any(np.all(s_prime != seen_states, axis=1))):
-                    states.append(s_prime)
-                    seen_states.append(s)
-                    depth += 0.5
-                    if (score(s_prime)<score(best_state)) and (isValid(s_prime)):
-                        best_state = copy.copy(s_prime)
+                s_primes = copy.copy(eval(action)(s))
+                for s_prime in s_primes:
+                    # when working allow invalid states maybe
+                    if (np.any(np.all(s_prime != seen_states, axis=1))) and (isValid(s_prime)):
+                        if len(states)<20:
+                            states.append(s_prime)
+                            fs.append(f(s_prime, depth))
+                        else:
+                            max_index = fs.index(max(fs))
+                            states.pop(max_index)
+                            fs.pop(max_index)
+                            states.append(s_prime)
+                            fs.append(f(s_prime, depth))
 
+                        seen_states.append(s)
 
+                        if (score(s_prime)<score(best_state)) and (isValid(s_prime)):
+                            best_state = copy.copy(s_prime)
+            depth+=1
+        else:
+            break
 
     return best_state, score(best_state)
 
-print(solveMondrian(4,10))
+solveMondrian(6,200)
