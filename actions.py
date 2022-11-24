@@ -1,7 +1,9 @@
 import numpy as np
 from visualiseActions import *
+from validateActions import *
 import random
 import math
+import copy
 
 def getIndices(grid):
 	unique = np.unique(grid)
@@ -14,6 +16,12 @@ def getIndices(grid):
 		indices.update({n:indexes})
 	return sorted(indices.items(), key = lambda item : len(item[1]), reverse=True)
 
+def score(grid):
+     unique, counts = np.unique(grid, return_counts=True)
+     if len(unique)==1:
+         return 100000
+     else:
+         return int(max(counts)-min(counts))
 
 def split(grid):
 	largest_rectangle = getIndices(grid)[0][1]
@@ -32,14 +40,18 @@ def split(grid):
 		skip = int(dimensions[1]-n)
 		for i in range(take):
 			index = index + largest_rectangle[i:len(largest_rectangle):skip+take]
-		for i in range(tile_num):
+		for i in range(len(index)):
 			grid[index[i][0], index[i][1]] = new_num
 	else:
 		for i in range(tile_num):
-			index = largest_rectangle[i]
-			grid[index[0], index[1]] = new_num
+			try:
+				index = largest_rectangle[i]
+				grid[index[0], index[1]] = new_num
+			except:
+				#maybe delete this before submtting
+				print("SHIT")
 
-	return grid
+	return [grid]
 
 
 def merge(grid):
@@ -52,6 +64,7 @@ def merge(grid):
 		surroundings.append([sum(i) for i in zip(index, [-1,0])])
 		surroundings.append([sum(i) for i in zip(index, [0,-1])])
 
+
 	for index in surroundings:
 		if index not in smallest_rectangle:
 			if grid.shape[0] not in index:
@@ -59,15 +72,22 @@ def merge(grid):
 				merge_options.append(index)
 
 	choice = random.choice(merge_options)
-	number = grid[choice[0], choice[1]]
 
-	for i in smallest_rectangle:
-		grid[i[0], i[1]] = number
+	numbers = []
+	grids = []
 
-	return grid
+	for c in merge_options:
+		numbers.append(grid[c[0], c[1]])
+	numbers = set(numbers)
 
+	for n in numbers:
+		for i in smallest_rectangle:
+			grid[i[0], i[1]] = n
 
+		g = copy.copy(grid)
+		grids.append(g)
 
+	return grids
 
 
 def initialiseGrid(n):
@@ -84,10 +104,10 @@ def initialiseGrid(n):
         return grid.reshape(n, n)
 
 if __name__ == '__main__':
-	grid = initialiseGrid(8)
-	s = split(grid)
-	print(s)
-	ss = split(s)
-	print(ss)
-	sss = merge(ss)
-	print(sss)
+	grid = initialiseGrid(6)
+	for i in range(4):
+		split(grid)
+	print('after 5 splits:')
+	print("\n", grid)
+	print(score(grid))
+	print(isValid(grid))
