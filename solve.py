@@ -31,6 +31,8 @@ def score(grid):
 
 def solveMondrian(n, M):
     initial_grid = initialiseGrid(n)
+    initial_grid = split(initial_grid)
+    print(initial_grid)
     actions = ['split', 'merge']
     states = [initial_grid]
     best_state = copy.copy(initial_grid)

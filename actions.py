@@ -9,8 +9,10 @@ def getIndices(grid):
 	unique = np.unique(grid)
 	indices = {}
 	for n in unique:
+
 		i = np.nonzero(grid==n)
 		indexes = []
+
 		for j in range(len(i[0])):
 			indexes.append([i[0][j], i[1][j]])
 		indices.update({n:indexes})
@@ -51,7 +53,7 @@ def split(grid):
 				#maybe delete this before submtting
 				print("SHIT")
 
-	return [grid]
+	return grid
 
 
 def merge(grid):
@@ -105,9 +107,19 @@ def initialiseGrid(n):
 
 if __name__ == '__main__':
 	grid = initialiseGrid(6)
-	for i in range(4):
+	for i in range(30):
+		print("\n")
+		print("Iteration " +str(i)+", best score = " +str(score(grid)))
+		print(grid)
+		possibles = {}
+		g = copy.copy(grid)
+		g = merge(g)
+		for n in g:
+			possibles.update({score(n):n})
 		split(grid)
-	print('after 5 splits:')
-	print("\n", grid)
-	print(score(grid))
-	print(isValid(grid))
+
+		possibles.update({score(grid):grid})
+		print(possibles)
+		best = list(dict(sorted(possibles.items())).values())[0]
+		grid = best
+		print(best)
