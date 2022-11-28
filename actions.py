@@ -53,7 +53,7 @@ def split(grid):
 				#maybe delete this before submtting
 				print("SHIT")
 
-	return grid
+	return [grid]
 
 
 def merge(grid):
@@ -106,20 +106,21 @@ def initialiseGrid(n):
         return grid.reshape(n, n)
 
 if __name__ == '__main__':
-	grid = initialiseGrid(6)
-	for i in range(30):
-		print("\n")
-		print("Iteration " +str(i)+", best score = " +str(score(grid)))
-		print(grid)
-		possibles = {}
-		g = copy.copy(grid)
-		g = merge(g)
-		for n in g:
-			possibles.update({score(n):n})
-		split(grid)
+	t=[]
+	grid = initialiseGrid(12)
+	for i in range(4):
+		print(split(grid))
+		print(score(grid))
+		print(isValid(grid))
+	print("\nMERGING OPTIONS\n")
+	grids = merge(grid)
+	for g in grids:
 
-		possibles.update({score(grid):grid})
-		print(possibles)
-		best = list(dict(sorted(possibles.items())).values())[0]
-		grid = best
-		print(best)
+
+		print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+
+		if (isValid(g)):
+			print("A valid merge option")
+			print(g)
+			print(isValid(g))
+			print(score(g))

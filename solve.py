@@ -2,7 +2,7 @@ import numpy as np
 from validateActions import *
 from actions import *
 import copy
-
+import sys
 
 def f(n, d):
     g_n = d
@@ -73,4 +73,46 @@ def solveMondrian(n, M):
 
     return best_state, score(best_state)
 
-solveMondrian(6,200)
+
+
+
+def solve(n, M):
+    depth = 0
+    actions = ['merge', 'split']
+    initial_grid = initialiseGrid(n)
+    openList = [initial_grid]
+    corresonding_fs = [f(initial_grid, depth)]
+    closedList = []
+    bestscore=score(initial_grid)
+    print(bestscore)
+    while openList!=[]:
+        if depth==M:
+            print(bestscore)
+            break
+        depth+=1
+        q_index = np.argmin(corresonding_fs)
+        corresonding_fs.pop(q_index)
+        q = openList.pop(q_index)
+        q_copy = copy.copy(q)
+        closedList.append(q_copy)
+        for action in actions:
+            s_primes = copy.copy(eval(action)(q))
+            for s_prime in s_primes:
+                if any((s_prime == x).all() for x in closedList):# or not (isValid(s_prime)):
+                    continue
+                else:
+                    if (isValid(s_prime)):
+                        if (score(s_prime)<bestscore):
+                            bestscore = score(s_prime)
+                            print("New best score", bestscore)
+                    if any((s_prime == x).all() for x in openList):
+                        continue
+                    else:
+                        openList.append(s_prime)
+                        corresonding_fs.append(f(s_prime, depth))
+    print('openlist is empty, best score =', bestscore)
+
+
+
+
+solve(12,200000)
