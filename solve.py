@@ -2,12 +2,7 @@ import numpy as np
 from validateActions import *
 from actions import *
 import copy
-import sys
-
-def f(n, d):
-    g_n = d
-    h_n = score(n)
-    return g_n+h_n
+import random
 
 def initialiseGrid(n):
     if n % 2 == 0:
@@ -25,94 +20,107 @@ def initialiseGrid(n):
 def score(grid):
      unique, counts = np.unique(grid, return_counts=True)
      if len(unique)==1:
-         return 1000
+         return 100
      else:
          return int(max(counts)-min(counts))
 
-def solveMondrian(n, M):
-    initial_grid = initialiseGrid(n)
-    initial_grid = split(initial_grid)
-    print(initial_grid)
-    actions = ['split', 'merge']
-    states = [initial_grid]
-    best_state = copy.copy(initial_grid)
-    seen_states = [np.zeros((n,n))]
-    depth = 0
-    fs = []
-    fs.append(f(initial_grid, depth))
-    while (len(states)!=0):
-        print("Length of states to explore", len(states))
-        print("Length of states seen", len(seen_states))
-        mix_index = fs.index(min(fs))
-        s = states.pop(mix_index)
-        fs.pop(mix_index)
-        if depth<M:
-            print("Iteration " + str(int(depth)) + ", current best state score = " + str(score(best_state)))
+def solveMondrian(a, M):
+    scores, allscores = [], []
+    i=0
+    initial_grid = initialiseGrid(a)
+    best_grid = initial_grid
+    best_score = score(initial_grid)
+    actions = ['merge', 'split']
+    closedList = []
+    openList = [initial_grid]
+    while openList != []:
+        if i < M:
+            print("Closed list length:", len(closedList))
+            print("Open list length:", len(openList))
+            q = openList.pop()
             for action in actions:
-                s_primes = copy.copy(eval(action)(s))
-                for s_prime in s_primes:
-                    # when working allow invalid states maybe
-                    if (np.any(np.all(s_prime != seen_states, axis=1))) and (isValid(s_prime)):
-                        if len(states)<20:
-                            states.append(s_prime)
-                            fs.append(f(s_prime, depth))
-                        else:
-                            max_index = fs.index(max(fs))
-                            states.pop(max_index)
-                            fs.pop(max_index)
-                            states.append(s_prime)
-                            fs.append(f(s_prime, depth))
+                grid = copy.deepcopy(q)
+                s_primes = []
+                s_primes = eval(action)(grid)
+                if len(s_primes)==0:
+                    break
 
-                        seen_states.append(s)
+                for s in s_primes:
+                    if (any((s == x).all() for x in closedList)):
+                        break
+                    else:
+                        print(s)
 
-                        if (score(s_prime)<score(best_state)) and (isValid(s_prime)):
-                            best_state = copy.copy(s_prime)
-            depth+=1
+                scores = [score(x) for x in s_primes]
+                if random.uniform(0,1)<0.9:
+                    best_s_prime = random.choice(s_primes)
+                else:
+                    best_s_prime = s_primes[np.argmin(scores)]
+
+                if score(best_s_prime)<best_score and isValid(best_s_prime):
+                        best_grid = best_s_prime
+                        best_score = score(best_s_prime)
+
+                allscores.append(best_score)
+                openList.append(best_s_prime)
+                closedList.append(best_s_prime)
+                i+=1
         else:
             break
 
-    return best_state, score(best_state)
+    print('\n\n\n')
+    print(allscores)
+    print(best_score)
+    print(best_grid)
 
 
-
-
-def solve(n, M):
-    depth = 0
+def SolveMondrian(a, M):
+    scores, allscores = [], []
+    i=0
+    initial_grid = initialiseGrid(a)
+    best_grid = initial_grid
+    best_score = score(initial_grid)
     actions = ['merge', 'split']
-    initial_grid = initialiseGrid(n)
-    openList = [initial_grid]
-    corresonding_fs = [f(initial_grid, depth)]
     closedList = []
-    bestscore=score(initial_grid)
-    print(bestscore)
-    while openList!=[]:
-        if depth==M:
-            print(bestscore)
-            break
-        depth+=1
-        q_index = np.argmin(corresonding_fs)
-        corresonding_fs.pop(q_index)
-        q = openList.pop(q_index)
-        q_copy = copy.copy(q)
-        closedList.append(q_copy)
-        for action in actions:
-            s_primes = copy.copy(eval(action)(q))
-            for s_prime in s_primes:
-                if any((s_prime == x).all() for x in closedList):# or not (isValid(s_prime)):
-                    continue
-                else:
-                    if (isValid(s_prime)):
-                        if (score(s_prime)<bestscore):
-                            bestscore = score(s_prime)
-                            print("New best score", bestscore)
-                    if any((s_prime == x).all() for x in openList):
-                        continue
+    openList = [initial_grid]
+    while openList != []:
+        if i < M:
+            print("Closed list length:", len(closedList))
+            print("Open list length:", len(openList))
+            q = openList.pop()
+            for action in actions:
+                grid = copy.deepcopy(q)
+                s_primes = []
+                s_primes = eval(action)(grid)
+                if len(s_primes)==0:
+                    break
+
+                for s in s_primes:
+                    if (any((s == x).all() for x in closedList)):
+                        break
                     else:
-                        openList.append(s_prime)
-                        corresonding_fs.append(f(s_prime, depth))
-    print('openlist is empty, best score =', bestscore)
+                        print(s)
 
+                scores = [score(x) for x in s_primes]
+                if random.uniform(0,1)<0.9:
+                    best_s_prime = random.choice(s_primes)
+                else:
+                    best_s_prime = s_primes[np.argmin(scores)]
 
+                if score(best_s_prime)<best_score and isValid(best_s_prime):
+                        best_grid = best_s_prime
+                        best_score = score(best_s_prime)
 
+                allscores.append(best_score)
+                openList.append(best_s_prime)
+                closedList.append(best_s_prime)
+                i+=1
+        else:
+            break
 
-solve(12,200000)
+    print('\n\n\n')
+    print(allscores)
+    print(best_score)
+    print(best_grid)
+
+SolveMondrian(12,10)
