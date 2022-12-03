@@ -24,59 +24,9 @@ def score(grid):
      else:
          return int(max(counts)-min(counts))
 
-def solveMondrian(a, M):
-    scores, allscores = [], []
-    i=0
-    initial_grid = initialiseGrid(a)
-    best_grid = initial_grid
-    best_score = score(initial_grid)
-    actions = ['merge', 'split']
-    closedList = []
-    openList = [initial_grid]
-    while openList != []:
-        if i < M:
-            print("Closed list length:", len(closedList))
-            print("Open list length:", len(openList))
-            q = openList.pop()
-            for action in actions:
-                grid = copy.deepcopy(q)
-                s_primes = []
-                s_primes = eval(action)(grid)
-                if len(s_primes)==0:
-                    break
-
-                for s in s_primes:
-                    if (any((s == x).all() for x in closedList)):
-                        break
-                    else:
-                        print(s)
-
-                scores = [score(x) for x in s_primes]
-                if random.uniform(0,1)<0.9:
-                    best_s_prime = random.choice(s_primes)
-                else:
-                    best_s_prime = s_primes[np.argmin(scores)]
-
-                if score(best_s_prime)<best_score and isValid(best_s_prime):
-                        best_grid = best_s_prime
-                        best_score = score(best_s_prime)
-
-                allscores.append(best_score)
-                openList.append(best_s_prime)
-                closedList.append(best_s_prime)
-                i+=1
-        else:
-            break
-
-    print('\n\n\n')
-    print(allscores)
-    print(best_score)
-    print(best_grid)
-
-
 def SolveMondrian(a, M):
     scores, allscores = [], []
-    i=0
+    depth=0
     initial_grid = initialiseGrid(a)
     best_grid = initial_grid
     best_score = score(initial_grid)
@@ -84,9 +34,7 @@ def SolveMondrian(a, M):
     closedList = []
     openList = [initial_grid]
     while openList != []:
-        if i < M:
-            print("Closed list length:", len(closedList))
-            print("Open list length:", len(openList))
+        if depth < M:
             q = openList.pop()
             for action in actions:
                 grid = copy.deepcopy(q)
@@ -114,7 +62,7 @@ def SolveMondrian(a, M):
                 allscores.append(best_score)
                 openList.append(best_s_prime)
                 closedList.append(best_s_prime)
-                i+=1
+                depth+=1
         else:
             break
 
@@ -122,5 +70,6 @@ def SolveMondrian(a, M):
     print(allscores)
     print(best_score)
     print(best_grid)
+    visualiseColours(best_grid, 'best_8x8')
 
-SolveMondrian(12,10)
+SolveMondrian(12,100)

@@ -48,6 +48,7 @@ def split(grid):
 			y = i[1]
 			grid[x,y] = new_num
 	else:
+		# maybe delete this before submitting 
 		print("We're fucked")
 
 	return [grid]
