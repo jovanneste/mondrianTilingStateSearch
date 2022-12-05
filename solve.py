@@ -3,6 +3,8 @@ from validateActions import *
 from actions import *
 import copy
 import random
+import matplotlib.pyplot as plt
+import sys
 
 def initialiseGrid(n):
     if n % 2 == 0:
@@ -44,13 +46,12 @@ def SolveMondrian(a, M):
                     break
 
                 for s in s_primes:
+                    print(s)
                     if (any((s == x).all() for x in closedList)):
                         break
-                    else:
-                        print(s)
 
                 scores = [score(x) for x in s_primes]
-                if random.uniform(0,1)<0.9:
+                if random.uniform(0,1)<0.1:
                     best_s_prime = random.choice(s_primes)
                 else:
                     best_s_prime = s_primes[np.argmin(scores)]
@@ -66,10 +67,22 @@ def SolveMondrian(a, M):
         else:
             break
 
-    print('\n\n\n')
-    print(allscores)
+    print("For", a)
     print(best_score)
     print(best_grid)
-    visualiseColours(best_grid, 'best_8x8')
+    print(allscores)
 
-SolveMondrian(12,100)
+    plt.title(str(a) + "x" + str(a))
+    plt.xlabel("Iterations")
+    plt.ylabel("Mondrian Score")
+
+    plt.plot([i for i in range(M)], allscores)
+
+    plt.grid()
+
+    plt.show()
+
+    return best_grid
+
+
+visualiseColours(SolveMondrian(5,20), 'atimesb')

@@ -15,7 +15,7 @@ def getIndices(grid):
 		for j in range(len(i[0])):
 			indexes.append([i[0][j], i[1][j]])
 		indices.update({n:indexes})
-	return sorted(indices.items(), key = lambda item : len(item[1]), reverse=True)
+	return sorted(indices.items(), key=lambda item : len(item[1]), reverse=True)
 
 
 def split(grid):
@@ -32,13 +32,13 @@ def split(grid):
 	n = tile_num/dimensions[0]
 
 	if tile_num%dimensions[1]==0:
-		print("Add horizontally")
+		# add horizontally
 		for index in range(tile_num):
 			x = largest_rectangle[index][0]
 			y = largest_rectangle[index][1]
 			grid[x, y] = new_num
-	elif tile_num%dimensions[0]==0:
-		print("Add vertically")
+	else:
+		# add vertically
 		take = int(tile_num/dimensions[0])
 		skip = int(dimensions[1]-n)
 		for i in range(take):
@@ -47,14 +47,12 @@ def split(grid):
 			x = i[0]
 			y = i[1]
 			grid[x,y] = new_num
-	else:
-		# maybe delete this before submitting 
-		print("We're fucked")
 
 	return [grid]
 
 
 def merge(grid):
+	grid = np.squeeze(grid)
 	smallest_rectangle = getIndices(grid)[-1][1]
 	surroundings = []
 	merge_options = []
@@ -83,6 +81,6 @@ def merge(grid):
 
 		g = copy.deepcopy(grid)
 		grids.append(g)
-	print("Returning " + str(len(grids))+ " merge options")
+
 
 	return grids
