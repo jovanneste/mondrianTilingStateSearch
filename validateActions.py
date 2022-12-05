@@ -5,13 +5,11 @@ def loss(grid):
      unique, counts = np.unique(grid, return_counts=True)
      return int(max(counts)-min(counts)), unique
 
-
 def inorder(i):
      for element in i:
           if(element != list(range(element[0], element[-1] + 1))):
                return False
      return True
-
 
 def checkOverlap(i, grid):
      index = []
@@ -25,7 +23,7 @@ def checkOverlap(i, grid):
      else:
           return []
 
-
+# checks if a given state is valid
 def isValid(grid):
      dimensions = []
      score, unique = loss(grid)
@@ -41,6 +39,7 @@ def isValid(grid):
 
      return True
 
+# check is performing a given action on a given state with resuit in a valid state
 def validateAction(s, a):
      if a == 'split':
           s_prime = split(s)

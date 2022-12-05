@@ -6,6 +6,7 @@ import math
 import copy
 
 
+# find the indices of all the tiles in the state and sort them by size
 def getIndices(grid):
 	unique = np.unique(grid)
 	indices = {}
@@ -18,6 +19,7 @@ def getIndices(grid):
 	return sorted(indices.items(), key=lambda item : len(item[1]), reverse=True)
 
 
+# perfrom a split on a given state
 def split(grid):
 	grids = []
 	index = []
@@ -51,12 +53,14 @@ def split(grid):
 	return [grid]
 
 
+# perfrom a merge on a given state
 def merge(grid):
 	grid = np.squeeze(grid)
 	smallest_rectangle = getIndices(grid)[-1][1]
 	surroundings = []
 	merge_options = []
 	for index in smallest_rectangle:
+		# what values surround the rectangle we want to merge 
 		surroundings.append([sum(i) for i in zip(index, [1,0])])
 		surroundings.append([sum(i) for i in zip(index, [0,1])])
 		surroundings.append([sum(i) for i in zip(index, [-1,0])])
@@ -66,7 +70,7 @@ def merge(grid):
 		if index not in smallest_rectangle:
 			if grid.shape[0] not in index:
 				if index[0]!=len(grid[0]) and index[1]!=len(grid[0]):
-				# check point is a point in the grid and is not the smallest rectangle itself
+					# check point is a point in the grid and is not the smallest rectangle itself
 					merge_options.append(index)
 
 	numbers = []
@@ -81,6 +85,5 @@ def merge(grid):
 
 		g = copy.deepcopy(grid)
 		grids.append(g)
-
 
 	return grids

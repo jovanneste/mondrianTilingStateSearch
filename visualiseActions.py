@@ -8,10 +8,11 @@ def loss(grid):
 	unique, counts = np.unique(grid, return_counts=True)
 	return int(max(counts)-min(counts)), unique
 
-# Function to save grid as image where each tile is a different colour
+# save grid as image where each tile is a different colour
 def visualiseColours(grid, name):
 	grid_name = 'tileImages/'+str(name)+'.png'
 	score, unique = loss(grid)
+	# colour map 
 	myColors = ["red", "yellow", "blue", "green", "black", "orange"]
 	myCmap = colors.ListedColormap(myColors)
 
@@ -21,7 +22,7 @@ def visualiseColours(grid, name):
 	Image.open(grid_name).show()
 	return
 
-# Function to save grid as csv
+# save grid as csv
 def visualiseGrid(grid, name):
 	grid_name = 'tileImages/'+str(name)+'.csv'
 	df = pd.DataFrame(grid)
